@@ -36,9 +36,10 @@ do
     fi
 done
 
-php artisan make:scaffold --schema="$fields" $scaffold
+php artisan make:scaffold --schema="$fields" $scaffold | tee tmp$$
 
-echo '---- Make sure you edit app/Http/routes.php'
+tail -1 tmp$$ >> app/Http/routes.php
+rm tmp$$
 
 php artisan migrate
 
@@ -46,4 +47,4 @@ model=`echo ${scaffold:0:1} | tr '[:lower:]' '[:upper:]'`${scaffold:1}
 echo "Created a model in app/$model.php"
 echo "Created a controller in app/Http/Controllers/${model}Controller.php"
 echo "Created views in" `\ls -d resources/views/$scaffold*`
-echo "Routes in app/Http/routes.php, see 'artisan route:list' for details"
+echo "Created resource in app/Http/routes.php, see 'artisan route:list' for details"

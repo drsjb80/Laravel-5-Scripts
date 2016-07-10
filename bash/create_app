@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/bash -e
 
 function yn {
     local answer
@@ -17,6 +17,18 @@ function yn {
     done
 }
 
+if ! which laravel
+then
+    echo 'laravel not found'
+    exit
+fi
+
+if ! which git
+then
+    echo 'git not found'
+    exit
+fi
+
 read -p  "---- Please enter the name of the application you want to create: " application
 
 # does the directory exist?
@@ -28,25 +40,25 @@ then
     fi
 
     echo "Attempting to reset all migrations"
-    cd $application; php artisan migrate:reset
+    cd $application; php artisan migrate:reset; cd ..
     echo "Removing entire folder"
     rm -rf $application
 fi
 
-~/.composer/vendor/bin/laravel new $application
+laravel new $application
 
 (
-    cd $application
-    curl -sSk https://getcomposer.org/installer | php
+cd $application
+curl -sSk https://getcomposer.org/installer | php
 
-    composer require laralib/l5scaffold:dev-master
+php composer.phar require laralib/l5scaffold:dev-master
 
-    sed -e "/'providers'/a\\
+sed -e "/'providers'/a\\
 Laralib\\\L5scaffold\\\GeneratorsServiceProvider::class," < config/app.php > tmp$$
-    mv tmp$$ config/app.php
+mv tmp$$ config/app.php
 
-    cat .env | sed -e '/DB_HOST/,/DB_PASSWORD/d' -e 's/mysql/sqlite/' > tmp$$
-    mv tmp$$ .env
+cat .env | sed -e '/DB_HOST/,/DB_PASSWORD/d' -e 's/mysql/sqlite/' > tmp$$
+mv tmp$$ .env
 
-    touch database/database.sqlite
+touch database/database.sqlite
 )
