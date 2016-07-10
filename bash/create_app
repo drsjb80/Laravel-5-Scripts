@@ -1,0 +1,54 @@
+#! /bin/bash
+
+function yn {
+    local answer
+
+    while true
+    do
+        echo -n $1
+        read -p " y/n: " answer
+        if [[ $answer == 'y' ]]
+        then
+            return 0
+        elif [[ $answer == 'n' ]]
+        then
+            return 1
+        fi
+    done
+}
+
+prompt -p  "---- Please enter the name of the application you want to create." application
+
+# does the directory exist?
+if [[ -d $application ]]
+then
+    if ! yn "---- Do you want to remove the existing application?"
+    then
+        exit
+    fi
+
+    echo "Attempting to reset all migrations"
+    cd $application; php artisan migrate:reset
+    echo "Removing entire folder"
+    rm -rf $application
+fi
+
+~/.composer/vendor/bin/laravel new $application
+
+(
+    cd $application
+    curl -sSk https://getcomposer.org/installer | php
+
+    composer require laralib/l5scaffold:dev-master
+    php composer.phar update
+
+    echo "---- Copy the following line."
+    echo "Laralib\L5scaffold\GeneratorsServiceProvider::class,"
+    read -p "---- Hit return to edit config/app.php; add that line to the 'providers' array."
+    $EDITOR config/app.php
+
+    echo "---- Copy the following line."
+    echo "DB_CONNECTION=sqlite"
+    read -p "---- Hit return to edit .env; have that be the only DB_ line."
+    $EDITOR .env
+)
