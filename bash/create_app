@@ -41,12 +41,11 @@ fi
 
     composer require laralib/l5scaffold:dev-master
 
-    # awk "/'providers'/ { print; print \"Laralib\\\L5scaffold\\\GeneratorsServiceProvider::class,\" }" config/app.php > tmp$$
     sed -e "/'providers'/a\\
 Laralib\\\L5scaffold\\\GeneratorsServiceProvider::class," < config/app.php > tmp$$
     mv tmp$$ config/app.php
 
-    sed -e '/DB_HOST/,/DB_PASSWORD/d' -e 's/mysql/sqlite/' < .env > tmp$$
+    cat .env | sed -e '/DB_HOST/,/DB_PASSWORD/d' -e 's/mysql/sqlite/' > tmp$$
     mv tmp$$ .env
 
     touch database/database.sqlite

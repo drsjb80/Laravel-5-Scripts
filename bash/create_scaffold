@@ -38,6 +38,8 @@ done
 
 php artisan make:scaffold --schema="$fields" $scaffold
 
+echo '---- Make sure you edit app/Http/routes.php'
+
 php artisan migrate
 
 model=`echo ${scaffold:0:1} | tr '[:lower:]' '[:upper:]'`${scaffold:1}
