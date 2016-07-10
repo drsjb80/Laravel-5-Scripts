@@ -17,7 +17,7 @@ function yn {
     done
 }
 
-prompt -p  "---- Please enter the name of the application you want to create." application
+read -p  "---- Please enter the name of the application you want to create: " application
 
 # does the directory exist?
 if [[ -d $application ]]
@@ -40,15 +40,14 @@ fi
     curl -sSk https://getcomposer.org/installer | php
 
     composer require laralib/l5scaffold:dev-master
-    php composer.phar update
 
-    echo "---- Copy the following line."
-    echo "Laralib\L5scaffold\GeneratorsServiceProvider::class,"
-    read -p "---- Hit return to edit config/app.php; add that line to the 'providers' array."
-    $EDITOR config/app.php
+    # awk "/'providers'/ { print; print \"Laralib\\\L5scaffold\\\GeneratorsServiceProvider::class,\" }" config/app.php > tmp$$
+    sed -e "/'providers'/a\\
+Laralib\\\L5scaffold\\\GeneratorsServiceProvider::class," < config/app.php > tmp$$
+    mv tmp$$ config/app.php
 
-    echo "---- Copy the following line."
-    echo "DB_CONNECTION=sqlite"
-    read -p "---- Hit return to edit .env; have that be the only DB_ line."
-    $EDITOR .env
+    sed -e '/DB_HOST/,/DB_PASSWORD/d' -e 's/mysql/sqlite/' < .env > tmp$$
+    mv tmp$$ .env
+
+    touch database/database.sqlite
 )
