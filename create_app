@@ -51,12 +51,20 @@ cd $application
 echo "Installing composer"
 curl -sSk https://getcomposer.org/installer | php
 
-echo "Installing l5scaffold"
-php composer.phar require laralib/l5scaffold:dev-master
+echo "Installing doctrine/dbal"
+php composer.phar require doctrine/dbal
 
-echo "Patching config/app"
+echo "Installing laralib/l5scaffold"
+# php composer.phar require laralib/l5scaffold:dev-master
+php composer.phar require laralib/l5scaffold
+
+echo "Installing laracasts/generators"
+php composer.phar require laracasts/generators
+
+echo "Patching config/app.php"
 sed -e "/'providers'/a\\
-Laralib\\\L5scaffold\\\GeneratorsServiceProvider::class," < config/app.php > tmp$$
+Laralib\\\L5scaffold\\\GeneratorsServiceProvider::class,\
+Laracasts\\\Generators\\\GeneratorsServiceProvider::class," < config/app.php > tmp$$
 mv tmp$$ config/app.php
 
 echo "Patching .env"
