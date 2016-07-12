@@ -60,8 +60,7 @@ Laralib\\\L5scaffold\\\GeneratorsServiceProvider::class," < config/app.php > tmp
 mv tmp$$ config/app.php
 
 echo "Patching .env"
-cat .env | sed -e '/DB_HOST/,/DB_PASSWORD/d' -e 's/mysql/sqlite/' > tmp$$
-mv tmp$$ .env
+cat .env.example | sed -e '/DB_HOST/,/DB_PASSWORD/d' -e 's/mysql/sqlite/' > .env
 
 echo "Creating empty database"
 touch database/database.sqlite
