@@ -5,7 +5,7 @@ scaffolds. Requires laravel and git be in $PATH.
 You should be able to run create\_app and then cd to the newly-created
 directory and run create\_scaffold as many times as needed.
 
-```bash
+```
 beatys@ms16142->Laravel-5-Scripts$ ./create_app 
 /Users/beatys/.composer/vendor/bin/laravel
 /usr/local/bin/git
@@ -13,10 +13,10 @@ beatys@ms16142->Laravel-5-Scripts$ ./create_app
 Crafting application...
 Loading composer repositories with package information
 Installing dependencies (including require-dev) from lock file
-  - Installing jakub-onderka/php-console-color ([33m0.1[39m)
+  - Installing jakub-onderka/php-console-color (0.1)
     Loading from cache
 
-  - Installing vlucas/phpdotenv ([33mv2.3.0[39m)
+  - Installing vlucas/phpdotenv (v2.3.0)
     Loading from cache
 
 [...]
@@ -79,6 +79,6 @@ Created a controller in app/Http/Controllers/TodoController.php
 Created views in resources/views/todos
 Created resource in app/Http/routes.php, see 'artisan route:list' for details.
 
-beatys@ms16142->todo$ php Kartisan serve
+beatys@ms16142->todo$ php artisan serve
 Laravel development server started on http://localhost:8000/
 ```
