@@ -55,7 +55,6 @@ echo "Installing doctrine/dbal"
 php composer.phar require doctrine/dbal
 
 echo "Installing laralib/l5scaffold"
-# php composer.phar require laralib/l5scaffold:dev-master
 php composer.phar require laralib/l5scaffold
 
 echo "Installing laracasts/generators"
@@ -72,3 +71,13 @@ cat .env.example | sed -e '/DB_HOST/,/DB_PASSWORD/d' -e 's/mysql/sqlite/' > .env
 
 echo "Creating empty database"
 touch database/database.sqlite
+
+echo "Creating key"
+php artisan key:generate
+
+cat - << EOF > README
+This directory now contains all you should need to get a Laravel
+application running. It includes the scaffolding and database migration
+commands. You don't need Apache (or similar) as 'php artisan serve' will
+do, and you don't need MySQL (or similar) as SQLite3 will do.
+EOF
