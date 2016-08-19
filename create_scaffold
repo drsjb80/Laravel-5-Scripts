@@ -48,6 +48,6 @@ php artisan migrate
 
 model=`echo ${scaffold:0:1} | tr '[:lower:]' '[:upper:]'`${scaffold:1}
 echo "Created a model in app/$model.php"
-echo "Created a controller in app/Http/Controllers/${model}Controller.php"
-echo "Created views in" `\ls -d resources/views/$scaffold*`
+echo "Created a controller in app/Http/Controllers"
+echo "Created views in resources/views"
 echo "Created resource in app/Http/routes.php, see 'artisan route:list' for details."

@@ -29,7 +29,12 @@ then
     exit
 fi
 
-read -p  "---- Please enter the name of the application you want to create: " application
+if [[ $# = 0 ]]
+then
+    read -p  "---- Please enter the name of the application you want to create: " application
+else
+    application=$1
+fi
 
 # does the directory exist?
 if [[ -d $application ]]
@@ -60,10 +65,15 @@ php composer.phar require laralib/l5scaffold
 echo "Installing laracasts/generators"
 php composer.phar require laracasts/generators
 
+echo "Installing laravelcollective/html"
+php composer.phar require laravelcollective/html
+
 echo "Patching config/app.php"
 sed -e "/'providers'/a\\
-Laralib\\\L5scaffold\\\GeneratorsServiceProvider::class,\
-Laracasts\\\Generators\\\GeneratorsServiceProvider::class," < config/app.php > tmp$$
+        Laralib\\\L5scaffold\\\GeneratorsServiceProvider::class,\\
+        Laracasts\\\Generators\\\GeneratorsServiceProvider::class,\\
+        Collective\\\Html\\\HtmlServiceProvider::class,\\
+" < config/app.php > tmp$$
 mv tmp$$ config/app.php
 
 echo "Patching .env"
