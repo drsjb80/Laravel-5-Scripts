@@ -50,7 +50,8 @@ then
     rm -rf $application
 fi
 
-laravel new $application
+# laravel new $application --5.3
+composer create-project laravel/laravel="5.3.*" $application
 
 cd $application
 echo "Installing composer"
@@ -66,7 +67,7 @@ echo "Installing laracasts/generators"
 php composer.phar require laracasts/generators
 
 echo "Installing laravelcollective/html"
-php composer.phar require laravelcollective/html
+php composer.phar require "laravelcollective/html:5.3.*"
 
 echo "Patching config/app.php"
 sed -e "/'providers'/a\\
