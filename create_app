@@ -17,18 +17,6 @@ function yn {
     done
 }
 
-if ! which laravel
-then
-    echo 'laravel not found'
-    exit
-fi
-
-if ! which git
-then
-    echo 'git not found'
-    exit
-fi
-
 if [[ $# = 0 ]]
 then
     read -p  "---- Please enter the name of the application you want to create: " application
